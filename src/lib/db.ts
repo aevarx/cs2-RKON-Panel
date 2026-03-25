@@ -46,43 +46,79 @@ export const db_helper = {
   },
 
   addServer: async (server: ServerProfile) => {
-    const db = await getDb();
-    return await db.execute(
-      'INSERT INTO servers (name, host, port, rcon_password, country_code) VALUES ($1, $2, $3, $4, $5)',
-      [server.name, server.host, server.port, server.rcon_password, server.country_code]
-    );
+    try {
+      const db = await getDb();
+      console.log("Adding server:", server);
+      return await db.execute(
+        'INSERT INTO servers (name, host, port, rcon_password, country_code) VALUES (?, ?, ?, ?, ?)',
+        [server.name, server.host, server.port, server.rcon_password, server.country_code]
+      );
+    } catch (e) {
+      console.error("Failed to add server:", e);
+      throw e;
+    }
   },
 
   updateServer: async (id: number, server: Partial<ServerProfile>) => {
-    const db = await getDb();
-    return await db.execute(
-      'UPDATE servers SET name = $1, host = $2, port = $3, rcon_password = $4, country_code = $5 WHERE id = $6',
-      [server.name, server.host, server.port, server.rcon_password, server.country_code, id]
-    );
+    try {
+      const db = await getDb();
+      return await db.execute(
+        'UPDATE servers SET name = ?, host = ?, port = ?, rcon_password = ?, country_code = ? WHERE id = ?',
+        [server.name, server.host, server.port, server.rcon_password, server.country_code, id]
+      );
+    } catch (e) {
+      console.error("Failed to update server:", e);
+      throw e;
+    }
   },
 
   deleteServer: async (id: number) => {
-    const db = await getDb();
-    return await db.execute('DELETE FROM servers WHERE id = $1', [id]);
+    try {
+      const db = await getDb();
+      return await db.execute('DELETE FROM servers WHERE id = ?', [id]);
+    } catch (e) {
+      console.error("Failed to delete server:", e);
+      throw e;
+    }
   },
 
   getCommands: async (): Promise<any[]> => {
-    const db = await getDb();
-    return await db.select<any[]>('SELECT * FROM custom_commands ORDER BY created_at DESC');
+    try {
+      const db = await getDb();
+      return await db.select<any[]>('SELECT * FROM custom_commands ORDER BY created_at DESC');
+    } catch (e) {
+      console.error("Failed to get commands:", e);
+      return [];
+    }
   },
 
   addCommand: async (label: string, command: string) => {
-    const db = await getDb();
-    return await db.execute('INSERT INTO custom_commands (label, command) VALUES ($1, $2)', [label, command]);
+    try {
+      const db = await getDb();
+      return await db.execute('INSERT INTO custom_commands (label, command) VALUES (?, ?)', [label, command]);
+    } catch (e) {
+      console.error("Failed to add command:", e);
+      throw e;
+    }
   },
 
   updateCommand: async (id: number, label: string, command: string) => {
-    const db = await getDb();
-    return await db.execute('UPDATE custom_commands SET label = $1, command = $2 WHERE id = $3', [label, command, id]);
+    try {
+      const db = await getDb();
+      return await db.execute('UPDATE custom_commands SET label = ?, command = ? WHERE id = ?', [label, command, id]);
+    } catch (e) {
+      console.error("Failed to update command:", e);
+      throw e;
+    }
   },
 
   deleteCommand: async (id: number) => {
-    const db = await getDb();
-    return await db.execute('DELETE FROM custom_commands WHERE id = $1', [id]);
+    try {
+      const db = await getDb();
+      return await db.execute('DELETE FROM custom_commands WHERE id = ?', [id]);
+    } catch (e) {
+      console.error("Failed to delete command:", e);
+      throw e;
+    }
   }
 };
