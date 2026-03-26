@@ -2,7 +2,7 @@
 
 Стильная и компактная панель управления для серверов Counter-Strike 2. Разработана для турнирных администраторов и владельцев серверов, которым нужен быстрый доступ к RCON и управлению матчами без лишнего веса.
 
-![Dashboard Preview](https://placehold.co/800x450?text=Dashboard+Screenshot+Placeholder)
+![Dashboard Preview](screenshots/preview.png)
 
 ## ✨ Особенности
 
@@ -16,10 +16,10 @@
 ## 📸 Скриншоты
 
 ### Панель управления (Dashboard)
-![Dashboard](https://placehold.co/800x450?text=Dashboard+Screenshot+Placeholder)
+![Dashboard](screenshots/dashboard.png)
 
 ### Генератор матчей (MatchZy)
-![MatchZy Generator](https://placehold.co/800x450?text=MatchZy+Generator+Screenshot+Placeholder)
+![MatchZy Generator](screenshots/match-generator.png)
 
 ## 🚀 Быстрый старт
 
