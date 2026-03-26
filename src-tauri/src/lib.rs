@@ -22,6 +22,7 @@ pub struct A2sResponse {
     max_players: u8,
     bots: u8,
     ping: u64,
+    keywords: String,
 }
 
 #[tauri::command]
@@ -63,6 +64,7 @@ async fn a2s_query(host: String, port: u16) -> Result<A2sResponse, String> {
         max_players: info.max_players,
         bots: info.bots,
         ping,
+        keywords: info.extended_server_info.keywords.clone().unwrap_or_default(),
     })
 }
 

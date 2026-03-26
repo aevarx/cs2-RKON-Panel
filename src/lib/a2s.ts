@@ -10,6 +10,7 @@ export interface ServerStatus {
   };
   ping: number;
   tags: string[];
+  keywords: string;
 }
 
 export async function fetchServerInfo(host: string, port: number): Promise<ServerStatus> {
@@ -20,12 +21,13 @@ export async function fetchServerInfo(host: string, port: number): Promise<Serve
       name: info.name,
       map: info.map,
       players: {
-        online: info.players,
+        online: Math.max(0, info.players - info.bots),
         max: info.max_players,
         bots: info.bots,
       },
       ping: info.ping,
-      tags: [], // Tags not implemented in the basic Rust a2s query yet
+      tags: info.keywords ? info.keywords.split(',') : [],
+      keywords: info.keywords || '',
     };
   } catch (error: any) {
     console.error('A2S_INFO Error:', error);
@@ -46,7 +48,7 @@ export async function fetchRconPlayers(host: string, port: number, rconPassword?
     const result: any = await invoke('rcon_command', { host, port, password: rconPassword, command: 'status' });
     if (!result.success) throw new Error(result.data);
     
-    // Parse CS2 status output (simple version for now, or use the one from electron/main.js logic)
+    // Parse CS2 status output
     const players: any[] = [];
     const lines = result.data.split('\n');
     const playerRegex = /#\s+\d+\s+\d+\s+"(.+)"\s+(\[U:\d+:\d+\])\s+[\d\.:]+\s+[\d:]+\s+(\d+)/;

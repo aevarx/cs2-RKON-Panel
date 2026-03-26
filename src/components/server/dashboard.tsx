@@ -16,10 +16,23 @@ interface ServerDashboardProps {
       bots: number;
     };
     ping: number;
+    keywords: string;
     status: 'online' | 'offline' | 'loading';
   };
   onSendCommand: (command: string) => Promise<string>;
 }
+
+const COMMON_MAPS = [
+  'de_dust2',
+  'de_mirage',
+  'de_inferno',
+  'de_nuke',
+  'de_ancient',
+  'de_anubis',
+  'de_vertigo',
+  'de_train',
+  'de_overpass',
+];
 
 export function ServerDashboard({ serverInfo, onSendCommand }: ServerDashboardProps) {
   const [mapInput, setMapInput] = React.useState('');
@@ -189,8 +202,14 @@ export function ServerDashboard({ serverInfo, onSendCommand }: ServerDashboardPr
                 placeholder="Map name (e.g. de_dust2)..."
                 value={mapInput}
                 onChange={(e) => setMapInput(e.target.value)}
+                list="map-suggestions"
                 className="flex-1 bg-white/5 border border-border rounded-md px-3 py-2 text-sm text-white focus:ring-1 focus:ring-primary outline-none"
               />
+              <datalist id="map-suggestions">
+                {COMMON_MAPS.map(map => (
+                  <option key={map} value={map} />
+                ))}
+              </datalist>
               <button 
                 onClick={() => { if(mapInput) onSendCommand(`map ${mapInput}`); }}
                 className="bg-primary text-primary-foreground px-4 py-2 rounded-md font-medium text-sm hover:bg-primary/90 transition-colors"

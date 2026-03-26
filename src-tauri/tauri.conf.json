@@ -1,12 +1,12 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "cs2-rcon-panel",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "identifier": "com.cs2.rcon.panel",
   "build": {
     "frontendDist": "../out",
     "devUrl": "http://localhost:3030",
-    "beforeDevCommand": "npm run dev -p 3030",
+    "beforeDevCommand": "npx next dev -p 3030",
     "beforeBuildCommand": "npm run build"
   },
   "app": {
